@@ -1,5 +1,6 @@
 import os
 
+import chromadb
 from langchain_community.vectorstores import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -23,15 +24,32 @@ class ChromaOperator():
 
         print(f"文档切分完成，共得到 {len(splitted_documents)} 个文本块。")
 
+        # 获取持久化客户端
+        client = chromadb.PersistentClient(path=self.get_chroma_db_dir())
+
+        # 使用 HNSW 索引，距离计算使用余弦相似度 (cosine)
+        collection_metadata = {
+            "hnsw:space": "cosine",  # 可选: "l2", "ip", "cosine"
+        }
+
+        client.get_or_create_collection(
+            name="my_documents",
+            metadata=collection_metadata
+        )
+
         # 创建 Chroma 向量数据库并保存
         vectorstore = Chroma.from_documents(
-            documents=splitted_documents,  # 切分后的文本块
-            embedding=embedding_model,  # 嵌入模型
-            persist_directory=self.get_chroma_db_dir()  # 保存的文件夹路径
+            documents=splitted_documents,
+            embedding=embedding_model,
+            persist_directory=self.get_chroma_db_dir(),  # LangChain 自动使用此路径
+            collection_name="my_documents"  # 必须显式指定集合名
         )
+
+        # 持久化
         vectorstore.persist()
         print(f"文档向量保存完成。")
 
+    # 执行检索
     def retrieve(self, message, embedding_model):
         vectorstore = Chroma(
             persist_directory=self.get_chroma_db_dir(),
