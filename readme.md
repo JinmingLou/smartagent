@@ -1,7 +1,8 @@
-这是个agent萌新尝试自己搭建agent
+ 这是个agent萌新尝试自己搭建agent
 
 开发框架：langchain+langgraph
 Llm：qwen3:4b（ollama部署）
+多轮对话记忆组件：ConversationSummaryMemory
 
 Rag部分：
 Embedding：text2vec-base-chinese

@@ -1,8 +1,6 @@
 import os
 
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-from document.ragdocuments.txt.loadtxt import TxtLoader
 
 class TxtEmbedder():
     def __init__(self):
