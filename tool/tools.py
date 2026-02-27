@@ -1,8 +1,6 @@
 import os
 
 from langchain.tools import tool
-import subprocess
-import json
 
 from tool.mysql.server_and_client.mysql_client import mcp_client
 
@@ -20,4 +18,4 @@ def query_sales_by_customer_code(customer_code: str) -> str:
     if not mcp_client.process:
         mcp_client.start()
 
-    return mcp_client.call_tool(customer_code)
+    return mcp_client.call_tool(customer_code=customer_code)
