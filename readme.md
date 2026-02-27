@@ -13,9 +13,10 @@ Index：HNSW 索引，距离计算使用余弦相似度 (cosine)
 检索召回次数：3
 检索优化：todo
 
-Tool部分：todo 还在开发中
+Tool部分：
 开发协议：MCP
-可操作tools：excel解析、数据库建表，数据库数据录入，数据查询 & 生成报表
+模式：stdio 本地启动server和client，通过进程间通信实现sql查询
+可操作tools：数据查询
 
 提供的能力：
 1 支持导入业务txt说明文档并写入知识库
