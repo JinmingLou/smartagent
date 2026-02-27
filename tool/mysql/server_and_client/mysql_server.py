@@ -62,6 +62,7 @@ def main():
 
             # 检查是否是调用工具的请求
             if request.get("type") == "call":
+
                 tool_name = request.get("name")
                 params = request.get("arguments", {})
 
