@@ -3,14 +3,15 @@ from langchain_core.output_parsers import StrOutputParser
 
 from prompt.prompt import getCommonPromptTemplate
 from config.llmconfig import QwenModel
-from rag.chromadb.chromaoperations import ChromaOperator
-from rag.embedding.embedding import TxtEmbedder
+from tool.rag.chromadb.chromaoperations import ChromaOperator
+from tool.rag.embedding.embedding import TxtEmbedder
 
 
 class LlmChain():
 
     def __init__(self):
-        self.llm = QwenModel().getModel()
+        self.llm = QwenModel().getModel(temperature=0.5)
+        self.chroma_operator = ChromaOperator()
         self.prompt = getCommonPromptTemplate()
         self.txt_embedder = TxtEmbedder()
         self.chroma_operator = ChromaOperator()
@@ -37,7 +38,7 @@ class LlmChain():
         llm = self.llm
         # 输出
         output_parser = self.output_parser
-        # chain
+        # agent
         chain = prompt | llm | output_parser
         # 执行并返回结果
         response = chain.invoke({

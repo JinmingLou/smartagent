@@ -1,4 +1,4 @@
-from chain.chain import LlmChain
+from agent.chain import LlmChain
 
 if __name__ == '__main__':
     print("欢迎使用牛奶销售管理智能助手，输入 'exit' 退出程序")

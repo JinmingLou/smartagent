@@ -1,11 +1,11 @@
 import os
 
-import chromadb
 from langchain_community.vectorstores import Chroma
+from langchain_experimental.text_splitter import SemanticChunker
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from document.ragdocuments.txt.loadtxt import TxtLoader
-from rag.embedding.embedding import TxtEmbedder
+from tool.rag.embedding.embedding import TxtEmbedder
 
 
 class ChromaOperator():
@@ -13,14 +13,15 @@ class ChromaOperator():
     def save_txt(self, file_name, embedding_model):
 
         # 切块规则，txt是自定义写入文本，按\n切换语义，分块基于\n进行切割
-        splitter = RecursiveCharacterTextSplitter(
-            separators=["\n", "\n\n", " ", ""],
-            chunk_size=300,
-            chunk_overlap=50,
+        text_splitter = SemanticChunker(
+            embedding_model,  # 传入嵌入模型实例
+            breakpoint_threshold_type="percentile",
+            # 可选: "standard_deviation", "percentile", "interquartile", "gradient"
+            breakpoint_threshold_amount=90  # 阈值，根据具体情况调整
         )
         # 执行切块
         documents = TxtLoader().doLoad(file_name);
-        splitted_documents = splitter.split_documents(documents)
+        splitted_documents = text_splitter.split_documents(documents)
 
         print(f"文档切分完成，共得到 {len(splitted_documents)} 个文本块。")
 

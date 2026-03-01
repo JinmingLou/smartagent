@@ -8,7 +8,7 @@ Rag部分：
 Embedding：text2vec-base-chinese
 向量数据库：chroma
 文档loader：TextLoader 
-分块策略：基于\n分割，分块大小300，重叠度50
+分块策略：基于语义分割，percentile=90
 Index：HNSW 索引，距离计算使用余弦相似度 (cosine)
 检索召回次数：3
 检索优化：todo
